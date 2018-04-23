@@ -10,7 +10,7 @@ public class BinaryTrie implements Serializable {
      * Constructs a Huffman decoding trie according to the given frequency table which maps the characters to
      * their relative frequencies. The less frequent branch is on the '0' side of the trie, and the more
      * frequent branch is on the '1' side.
-     * @param frequencyTable
+     * @param frequencyTable a map that maps the symbol to its frequency
      */
     public BinaryTrie(Map<Character, Integer> frequencyTable) {
         if (frequencyTable == null || frequencyTable.size() == 0) {
@@ -44,6 +44,11 @@ public class BinaryTrie implements Serializable {
         this.root = pq.poll();
     }
 
+    /**
+     * Finds the longest prefix that matches the given querySequence and returns a Match object.
+     * @param querySequence a BitSequence object
+     * @return a Match object
+     */
     public Match longestPrefixMatch(BitSequence querySequence) {
         if (querySequence == null || root == null) {
             return null;
@@ -66,6 +71,10 @@ public class BinaryTrie implements Serializable {
         return new Match(new BitSequence(sb.toString()), cur.ch);
     }
 
+    /**
+     * Returns a lookup table that maps symbols to BitSequence objects, the inverse of the coding trie.
+     * @return Map<Character, BitSequence> a map that maps symbols to their BitSequences
+     */
     public Map<Character, BitSequence> buildLookupTable() {
         Map<Character, BitSequence> lookupTable = new HashMap<>();
         StringBuilder sb = new StringBuilder();
@@ -73,6 +82,12 @@ public class BinaryTrie implements Serializable {
         return lookupTable;
     }
 
+    /**
+     * Helper function for the buildLookupTable method.
+     * @param table Map<Character, BitSequence> a map that maps symbols to their BitSequences
+     * @param node a BinaryTrie Node object
+     * @param sb a StringBuilder object
+     */
     private void lookupTableHelper(Map<Character, BitSequence> table, Node node, StringBuilder sb) {
         if (node == null) {
             return;
@@ -88,6 +103,12 @@ public class BinaryTrie implements Serializable {
         sb.deleteCharAt(sb.length() - 1);
     }
 
+    /**
+     * A class that represents a Node object for BinaryTrie. It implements Comparable and Serializable interfaces.
+     * Each Node object has for instance variables: the char it stores, the frequency of the char, and its left
+     * and right children.
+     * It provides the isLeaf() method
+     */
     private static class Node implements Comparable<Node>, Serializable {
         private final char ch;
         private final int freq;
@@ -100,6 +121,10 @@ public class BinaryTrie implements Serializable {
             this.right = right;
         }
 
+        /**
+         * Returns true if the node is a leaf node, otherwise false.
+         * @return boolean 
+         */
         boolean isLeaf() {
             return (left == null) && (right == null);
         }

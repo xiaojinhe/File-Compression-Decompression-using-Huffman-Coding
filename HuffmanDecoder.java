@@ -2,6 +2,12 @@ import edu.princeton.cs.algs4.BinaryOut;
 
 public class HuffmanDecoder {
 
+    /**
+     * Read a Huffman encoded file by given encoded filename, and write the decoded content to the given output
+     * file decodeFilename
+     * @param encodeFilename encoded filename
+     * @param decodeFilename decoded filename
+     */
     private static void decode(String encodeFilename, String decodeFilename) {
         ObjectReader reader = new ObjectReader(encodeFilename);    // create an ObjectReader object
         BinaryTrie binaryTrie = (BinaryTrie) reader.readObject();    // read the Huffman encoding trie from encoded file
